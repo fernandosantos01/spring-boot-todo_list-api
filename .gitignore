@@ -1,0 +1,50 @@
+HELP.md
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+# -----------------------------------------------
+# ESPECÍFICOS DO PROJETO E DADOS SENSÍVEIS/LOCAIS
+# -----------------------------------------------
+
+# Arquivo de configuração de ambiente (Contém senhas do PostgreSQL!)
+# É a prática mais segura para projetos Spring Boot
+src/main/resources/application*.properties
+src/main/resources/application*.yml
+!src/main/resources/application.properties # Se você quer versionar o arquivo, mas não as credenciais
+
+# Arquivos de log gerados pela aplicação
+*.log
+/logs/
+
+# Arquivos de bancos de dados locais (se usar H2 no futuro)
+*.mv.db
+*.trace.db

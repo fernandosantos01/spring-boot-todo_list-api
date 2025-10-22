@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -26,53 +25,32 @@ public class TarefaController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Object> buscarPorId(@PathVariable(value = "id") UUID id) {
-        Optional<TarefaModel> tarefaProcurada = service.buscarPorId(id);
-        if (tarefaProcurada.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tarefa não encontrada");
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(tarefaProcurada.get());
+    public ResponseEntity<TarefaModel> buscarPorId(@PathVariable(value = "id") UUID id) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.buscarPorId(id));
     }
 
     @GetMapping
     public ResponseEntity<List<TarefaModel>> pegarTodasTarefas() {
-
-//        while (!tarefaModelList.isEmpty()) {
-//            for (TarefaModel tarefa : tarefaModelList) {
-//                UUID id = tarefa.getId();
-//                tarefaModelList.add(link)
-//            }
-//        }
         return ResponseEntity.status(HttpStatus.OK).body(service.buscarTodas());
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<Object> apagarTarefa(@PathVariable(value = "id") UUID id) {
-        Optional<TarefaModel> tarefaDeletar = service.buscarPorId(id);
-        if (tarefaDeletar.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tarefa Não Encontrada!");
-        }
-        service.deletarTarefa(tarefaDeletar.get());
+        TarefaModel tarefaDeletar = service.buscarPorId(id);
+        service.deletarTarefa(tarefaDeletar);
         return ResponseEntity.status(HttpStatus.OK).body("Tarefa Deletada");
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Object> atualizarTarefa(@PathVariable(value = "id") UUID id,
+    public ResponseEntity<TarefaModel> atualizarTarefa(@PathVariable(value = "id") UUID id,
                                                   @RequestBody @Valid TarefaAtualizacaoDTO tarefaAtualizacaoDTO) {
-        Optional<TarefaModel> tarefaProcurada = service.buscarPorId(id);
-        if (tarefaProcurada.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tarefa Não Encontrada!");
-        }
-        TarefaModel tarefaAtualizada = service.atualizarTarefa(tarefaProcurada.get(), tarefaAtualizacaoDTO);
+        TarefaModel tarefaExistente = service.buscarPorId(id);
+        TarefaModel tarefaAtualizada = service.atualizarTarefa(tarefaExistente, tarefaAtualizacaoDTO);
         return ResponseEntity.status(HttpStatus.OK).body(tarefaAtualizada);
     }
 
     @GetMapping("/pendentes")
     public ResponseEntity<List<TarefaModel>> tarefasPendentes() {
-        List<TarefaModel> tarefasPendentes = service.tarefasPendentes();
-        if (tarefasPendentes.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.OK).body(tarefasPendentes);
-        }
         return ResponseEntity.status(HttpStatus.OK).body(service.tarefasPendentes());
     }
 }

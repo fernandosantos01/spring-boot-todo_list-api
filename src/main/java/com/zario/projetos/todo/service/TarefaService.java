@@ -8,10 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class TarefaService {
@@ -28,8 +25,9 @@ public class TarefaService {
         return repository.findAll();
     }
 
-    public Optional<TarefaModel> buscarPorId(UUID id) {
-        return repository.findById(id);
+    public TarefaModel buscarPorId(UUID id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Tarefa com ID " + id + " não encontrada."));
     }
 
     public TarefaModel atualizarTarefa(TarefaModel tarefaExistente, TarefaAtualizacaoDTO dto) {

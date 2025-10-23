@@ -25,7 +25,7 @@ public class TarefaController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<TarefaModel> buscarPorId(@PathVariable(value = "id") UUID id) {
+    public ResponseEntity<?> buscarPorId(@PathVariable(value = "id") UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(service.buscarPorId(id));
     }
 
@@ -35,10 +35,9 @@ public class TarefaController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Object> apagarTarefa(@PathVariable(value = "id") UUID id) {
+    public void apagarTarefa(@PathVariable(value = "id") UUID id) {
         TarefaModel tarefaDeletar = service.buscarPorId(id);
         service.deletarTarefa(tarefaDeletar);
-        return ResponseEntity.status(HttpStatus.OK).body("Tarefa Deletada");
     }
 
     @PutMapping("{id}")

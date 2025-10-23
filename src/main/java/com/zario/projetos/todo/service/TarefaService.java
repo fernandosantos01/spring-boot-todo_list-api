@@ -2,6 +2,7 @@ package com.zario.projetos.todo.service;
 
 import com.zario.projetos.todo.dtos.TarefaAtualizacaoDTO;
 import com.zario.projetos.todo.dtos.TarefaCriacaoDTO;
+import com.zario.projetos.todo.exception.RecursoNaoEncontradoException;
 import com.zario.projetos.todo.models.TarefaModel;
 import com.zario.projetos.todo.repository.TarefaRepository;
 import org.springframework.beans.BeanUtils;
@@ -27,7 +28,7 @@ public class TarefaService {
 
     public TarefaModel buscarPorId(UUID id) {
         return repository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Tarefa com ID " + id + " não encontrada."));
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Tarefa com ID " + id + " não encontrada."));
     }
 
     public TarefaModel atualizarTarefa(TarefaModel tarefaExistente, TarefaAtualizacaoDTO dto) {
